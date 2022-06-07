@@ -42,11 +42,20 @@ public class SchoolManagementSystem {
 	private void processSelection(int sel) {
 		switch (sel) {
 			case 1:
-				Teacher t1 = new Teacher("babür", "somer", "male", true, LocalDate.of(1964, 11, 10), 12000,
-						LocalDate.of(2021, 6, 15));
+				Teacher t1 = new Teacher.TeacherBuilder("babür", "somer", LocalDate.of(2021, 6, 15), 12000)
+											.birthDate(LocalDate.of(1964, 11, 10))
+											.married(true)
+											.build();
 				this.employees.add(t1);
-				this.employees.add(new Teacher("ayşe", "fatma", "4950", "female", false, LocalDate.of(1978, 10, 18), 12500,
-						LocalDate.of(2021, 3, 15)));
+				this.employees.add(new Teacher.TeacherBuilder("ayşe", "fatma", LocalDate.of(2021, 3, 15), 11000)
+						.birthDate(LocalDate.of(1964, 11, 10))
+						.married(false)
+						.gender("bekar")
+						.middleName("yakut")
+						.build());
+				
+//				Teacher t1 = new Teacher("babür", "somer", "male", true, LocalDate.of(1964, 11, 10), 12000, LocalDate.of(2021, 6, 15));
+//				this.employees.add(new Teacher("ayşe", "yakut", "fatma", "4950", "female", false, LocalDate.of(1978, 10, 18), 12500, LocalDate.of(2021, 3, 15)));
 				break;
 			case 2:
 				for (Employee employee : employees) {

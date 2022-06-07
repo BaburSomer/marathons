@@ -5,21 +5,13 @@ import java.util.Arrays;
 
 public abstract class Employee extends Person {
 	private String    idNumber;
-	private LocalDate startDate;
-	private LocalDate endDate;
-	private double    startSalary;
-	private String[]  telephoneNumbers;
+	private LocalDate startDate;		// must
+	private LocalDate endDate;			// sonradan belirlenebilir
+	private double    startSalary;		// must	
+	private String[]  telephoneNumbers;	// optional
 
-	public Employee(String firstName, String lastName, String gender, boolean married, LocalDate birthDate, double startSalary, LocalDate startDate) {
-		super(firstName, lastName, gender, married, birthDate);
-		this.startDate   = startDate;
-		this.startSalary = startSalary;
-		this.endDate     = null;
-		this.idNumber    = this.createIdNumber();
-	}
-
-	public Employee(String firstName, String middleName, String lastName, String gender, boolean married, LocalDate birthDate, double startSalary, LocalDate startDate) {
-		super(firstName, middleName, lastName, gender, married, birthDate);
+	public Employee(String firstName, String lastName, double startSalary, LocalDate startDate) {
+		super(firstName, lastName);
 		this.startDate   = startDate;
 		this.startSalary = startSalary;
 		this.endDate     = null;
