@@ -1,6 +1,7 @@
 package com.bilgeadam.marathon02;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Teacher extends Employee {
 	private static int ACT_NUMBER = 0;
@@ -24,6 +25,18 @@ public class Teacher extends Employee {
 		String numAsString = String.format("Ö-%03d", Teacher.ACT_NUMBER);
 		return numAsString;
 	}
+	
+	@Override
+	public void getMarried(String newLastName) throws CannotMarryException {
+		this.setMarried(true);
+		this.setLastName(newLastName);
+	}
+
+	@Override
+	public double getIncreaseRate() {
+		return 0.10;
+	}
+
 
 	public static class TeacherBuilder {
 		private String    firstName;   // must

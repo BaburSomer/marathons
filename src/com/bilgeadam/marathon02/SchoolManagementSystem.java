@@ -35,27 +35,38 @@ public class SchoolManagementSystem {
 				exit = BAUtil.wantToEnd("Gerçekten mi?", "Evet");
 				continue;
 			}
-			this.processSelection(sel);
+			try {
+				this.processSelection(sel);
+			}
+			catch (UnknownPersonTypeException ex) {
+				System.err.println(ex.getMessage());
+			}
 		}
 	}
 
-	private void processSelection(int sel) {
+	private void processSelection(int sel) throws UnknownPersonTypeException {
 		switch (sel) {
 			case 1:
-				Teacher t1 = new Teacher.TeacherBuilder("babür", "somer", LocalDate.of(2021, 6, 15), 12000)
-											.birthDate(LocalDate.of(1964, 11, 10))
-											.married(true)
-											.build();
-				this.employees.add(t1);
-				this.employees.add(new Teacher.TeacherBuilder("ayşe", "fatma", LocalDate.of(2021, 3, 15), 11000)
-						.birthDate(LocalDate.of(1964, 11, 10))
-						.married(false)
-						.gender("bekar")
-						.middleName("yakut")
-						.build());
-				
-//				Teacher t1 = new Teacher("babür", "somer", "male", true, LocalDate.of(1964, 11, 10), 12000, LocalDate.of(2021, 6, 15));
-//				this.employees.add(new Teacher("ayşe", "yakut", "fatma", "4950", "female", false, LocalDate.of(1978, 10, 18), 12500, LocalDate.of(2021, 3, 15)));
+//				this.employees.add((Employee) PersonFactory.create("öğretmen"));
+//				this.employees.add((Employee) PersonFactory.create("çalışan"));
+//				this.employees.add((Employee) PersonFactory.create("memur"));
+//				this.employees.add((Employee) PersonFactory.create("öğretmen"));
+				Teacher teacher = (Teacher) PersonFactory.create("öğretmen");
+				teacher.setEndDate(LocalDate.of(2022, 5, 25));
+				this.employees.add(teacher);
+//				this.employees.add((Employee) PersonFactory.create("çalışan"));
+//				this.employees.add((Employee) PersonFactory.create("memur"));
+//				this.employees.add((Employee) PersonFactory.create("öğretmen"));
+//				this.employees.add((Employee) PersonFactory.create("öğretmen"));
+//				this.employees.add((Employee) PersonFactory.create("çalışan"));
+//				this.employees.add((Employee) PersonFactory.create("memur"));
+//				this.employees.add((Employee) PersonFactory.create("öğretmen"));
+//				this.employees.add((Employee) PersonFactory.create("öğretmen"));
+//				this.employees.add((Employee) PersonFactory.create("çalışan"));
+//				this.employees.add((Employee) PersonFactory.create("memur"));
+				teacher = (Teacher) PersonFactory.create("öğretmen");
+				teacher.setStartDate(LocalDate.of(2019, 5, 25));
+				this.employees.add(teacher);
 				break;
 			case 2:
 				for (Employee employee : employees) {
@@ -63,10 +74,22 @@ public class SchoolManagementSystem {
 						System.out.println(employee);
 				}
 				break;
+			case 3:
+				for (Employee employee : employees) {
+					if (employee.getEndDate() != null)
+						System.out.println(employee);
+				}
+				break;
+			case 9:
+				for (Employee employee : employees) {
+					if (employee.getEndDate() == null)
+						System.out.println(employee.getFirstName() + " " + employee.getLastName() + " : Başlangıç maaşı" + employee.getStartSalary()
+											+ " Güncel Maaş: " + employee.calculateCurrentSalary());
+				}
+				break;
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + sel);
 		}
-
 	}
 
 	private void initMenuItems() {

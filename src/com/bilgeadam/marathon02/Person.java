@@ -10,11 +10,12 @@ public abstract class Person {
 	private boolean   married; // optional
 	private LocalDate birthDate;  // optional
 	
+	public abstract void getMarried(String newLastName) throws CannotMarryException;
+	
 	public Person(String firstName, String lastName) {
 		super();
 		this.firstName = firstName;
 		this.lastName  = lastName;
-
 	}
 
 	@Override
@@ -36,6 +37,10 @@ public abstract class Person {
 		return this.lastName;
 	}
 
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public String getMiddleName() {
 		return this.middleName;
 	}

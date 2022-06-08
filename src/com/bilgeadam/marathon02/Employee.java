@@ -1,6 +1,7 @@
 package com.bilgeadam.marathon02;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 public abstract class Employee extends Person {
@@ -19,15 +20,32 @@ public abstract class Employee extends Person {
 	}
 
 	public abstract String createIdNumber();
+	public abstract double getIncreaseRate();
+	
+	public double calculateCurrentSalary() {
+		LocalDate today = LocalDate.now();
+		long workedMonths = ChronoUnit.MONTHS.between(this.getStartDate(), today);
+		long numOf6Months = workedMonths / 6;
+		double salary = this.getStartSalary();
+		for (int i= 1; i<numOf6Months; i++) {
+			salary = salary * (1 + this.getIncreaseRate());
+		}
+		return salary;
+	}
+
 
 	public LocalDate getEndDate() {
 		return this.endDate;
 	}
 
+	public void setStartDate(LocalDate start) {
+		this.startDate = start;
+	}
+
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
-
+	
 	public LocalDate getStartDate() {
 		return this.startDate;
 	}
