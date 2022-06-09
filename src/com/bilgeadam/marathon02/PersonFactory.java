@@ -26,8 +26,9 @@ public class PersonFactory {
 		
 		if (type.equalsIgnoreCase("çalışan")) {
 			Janitor janitor = new Janitor.JanitorBuilder("deniz", "mutlu", LocalDate.of(2021, 6, 15), 5000)
-					.birthDate(LocalDate.of(1964, 11, 10))
+					.birthDate(LocalDate.of(1964, 6, 10))
 					.married(true)
+					.gender("kadın")
 					.build();
 			return janitor;
 		}

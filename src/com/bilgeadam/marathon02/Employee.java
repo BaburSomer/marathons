@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 public abstract class Employee extends Person {
 	private String    idNumber;
-	private LocalDate startDate;		// must
-	private LocalDate endDate;			// sonradan belirlenebilir
-	private double    startSalary;		// must	
-	private String[]  telephoneNumbers;	// optional
+	private LocalDate startDate;        // must
+	private LocalDate endDate;          // sonradan belirlenebilir
+	private double    startSalary;      // must
+	private String[]  telephoneNumbers; // optional
 
 	public Employee(String firstName, String lastName, double startSalary, LocalDate startDate) {
 		super(firstName, lastName);
@@ -20,20 +20,47 @@ public abstract class Employee extends Person {
 	}
 
 	public abstract String createIdNumber();
+
 	public abstract double getIncreaseRate();
-	
-	public double calculateCurrentSalary() {
-		LocalDate today = LocalDate.now();
-		long workedMonths = ChronoUnit.MONTHS.between(this.getStartDate(), today);
-		long numOf6Months = workedMonths / 6;
-		double salary = this.getStartSalary();
-		for (int i= 1; i<numOf6Months; i++) {
-			salary = salary * (1 + this.getIncreaseRate());
+
+	private SalaryIncrease[] calculateCurrentSalary() {
+		LocalDate today        = LocalDate.now();
+		long      workedMonths = ChronoUnit.MONTHS.between(this.getStartDate(), today);
+		long      numOf6Months = workedMonths / 6;
+
+		SalaryIncrease[] salaryIncreases = new SalaryIncrease[(int)numOf6Months];
+		
+		double    salary       = this.getStartSalary();
+		LocalDate increaseDate = this.startDate;
+		
+		for (int i = 0; i < numOf6Months; i++) {
+			double newSalary = salary * (1 + this.getIncreaseRate());
+			increaseDate = increaseDate.plusMonths(6);
+			salaryIncreases[i] = new SalaryIncrease(increaseDate, salary, newSalary);
+			salary = newSalary;
 		}
-		return salary;
+		return salaryIncreases;
 	}
 
-
+	public String salaryHistory() {
+		StringBuilder history = new StringBuilder();
+		history.append("\t").append(this.idNumber).append(" - ")
+				.append(this.getFirstName()).append(" ")
+				.append(this.getLastName())
+				.append(" - İşe Başlangıç: ").append(this.startDate)
+				.append("\n");
+		
+		SalaryIncrease[] salaryIncreases = this.calculateCurrentSalary();
+		for (int i = 0; i < salaryIncreases.length; i++) {
+			
+			history.append("\t\t").append(i+1).append(". Artış - ").append(salaryIncreases[i].getDate())
+					.append(" - Artış Öncesi: ").append(String.format("%.2f", salaryIncreases[i].getBeforeSalary()))
+					.append(" - Artış Sonrası: ").append(String.format("%.2f", salaryIncreases[i].getAfterSalary())).append("\n");
+		}
+		history.append("\n");
+		return history.toString();
+	}
+	
 	public LocalDate getEndDate() {
 		return this.endDate;
 	}
@@ -45,7 +72,7 @@ public abstract class Employee extends Person {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	public LocalDate getStartDate() {
 		return this.startDate;
 	}
